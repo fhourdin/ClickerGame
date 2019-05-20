@@ -13,7 +13,9 @@ const styles = (theme) => ({
 		flex: 3,
 		display: "flex",
 		flexDirection: "column",
-		backgroundColor: "#3498db"
+		backgroundColor: "#3498db",
+		marginRight: 10,
+		boxShadow: "0 0 5px"
 	}
 })
 

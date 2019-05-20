@@ -11,23 +11,20 @@ const styles = {
 	container: {
 		height: "100vh",
 		width: "100vw",
-		display: "flex"
+		display: "flex",
+		backgroundColor: "#ecf0f1"
 	}
 }
 
 class App extends React.Component {
 	ticker = null
 	state = {
-		nb_of_ticks: 0,
 		money: BigNumber(0),
 		owned_upgrades: [0, 0, 0, 0, 0, 0, 0, 0]
 	}
 
 	onTick() {
 		const { nb_of_ticks } = this.state
-		this.setState({
-			nb_of_ticks: nb_of_ticks + 1
-		})
 	}
 
 	componentDidMount() {
@@ -55,7 +52,6 @@ class App extends React.Component {
 			<div className={classes.container}>
 				<Main money={money} handleClick={this.handleClick} />
 				<UpgradeList />
-				<TickCounter nb_of_ticks={nb_of_ticks} />
 			</div>
 		)
 	}
