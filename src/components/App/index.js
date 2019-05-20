@@ -40,13 +40,20 @@ class App extends React.Component {
 		clearInterval(this.ticker)
 	}
 
+	handleClick = () => {
+		const { money, owned_upgrades } = this.state
+
+		const newMoney = money.plus(BigNumber(2).pow(owned_upgrades[0]))
+		this.setState({ money: newMoney })
+	}
+
 	render() {
-		const { nb_of_ticks } = this.state
+		const { nb_of_ticks, money } = this.state
 		const { classes } = this.props
 
 		return (
 			<div className={classes.container}>
-				<Main />
+				<Main money={money} handleClick={this.handleClick} />
 				<UpgradeList />
 				<TickCounter nb_of_ticks={nb_of_ticks} />
 			</div>

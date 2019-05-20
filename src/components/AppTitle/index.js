@@ -3,26 +3,24 @@ import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
-const styles = {
+const styles = (theme) => ({
 	container: {
-		height: "100%",
-		flex: 2,
-		backgroundColor: "#2980b9"
+		padding: theme.spacing.unit * 2
 	}
-}
+})
 
-const UpgradeList = (props) => {
+const AppTitle = (props) => {
 	const { classes } = props
 
 	return (
-		<div className={classes.container}>
-			<Typography>UpgradeList</Typography>
-		</div>
+		<Typography variant="h3" classes={{ root: classes.container }}>
+			AppTitle
+		</Typography>
 	)
 }
 
-UpgradeList.propTypes = {
+AppTitle.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(UpgradeList)
+export default withStyles(styles)(AppTitle)

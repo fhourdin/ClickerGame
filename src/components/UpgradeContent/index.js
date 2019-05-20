@@ -5,24 +5,21 @@ import Typography from "@material-ui/core/Typography"
 
 const styles = {
 	container: {
-		height: "100%",
-		flex: 2,
-		backgroundColor: "#2980b9"
 	}
 }
 
-const UpgradeList = (props) => {
+const UpgradeContent = (props) => {
 	const { classes } = props
 
 	return (
 		<div className={classes.container}>
-			<Typography>UpgradeList</Typography>
+			<Typography>UpgradeContent</Typography>
 		</div>
 	)
 }
 
-UpgradeList.propTypes = {
+UpgradeContent.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(UpgradeList)
+export default withStyles(styles)(UpgradeContent)
