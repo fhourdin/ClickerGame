@@ -19,16 +19,30 @@ const styles = {
 }
 
 const UpgradeBlock = (props) => {
-	const { classes, upgrade, affordable } = props
+	const {
+		classes,
+		upgrade,
+		affordable,
+		upg_index,
+		price,
+		buyUpgrade,
+		nb_owned
+	} = props
 
 	return (
 		<div
+			onClick={() => buyUpgrade(upg_index)}
 			className={`${classes.container} ${
 				!affordable ? classes.disabled : ""
 			}`}
 		>
 			<UpgradeLogo img_url={upgrade.img_url} disabled={!affordable} />
-			<UpgradeContent title={upgrade.title} disabled={!affordable} />
+			<UpgradeContent
+				title={upgrade.title}
+				price={price}
+				nb_owned={nb_owned}
+				disabled={!affordable}
+			/>
 		</div>
 	)
 }

@@ -25,7 +25,7 @@ const styles = {
 }
 
 const UpgradeContent = (props) => {
-	const { classes, title, disabled } = props
+	const { classes, title, disabled, price, nb_owned } = props
 
 	return (
 		<div className={classes.container}>
@@ -38,8 +38,8 @@ const UpgradeContent = (props) => {
 				{title}
 			</Typography>
 			<div className={classes.subcontent}>
-				<Typography>btm_left_content</Typography>
-				<Price value={0} disabled={disabled} />
+				<Typography>#{nb_owned}</Typography>
+				<Price value={price} disabled={disabled} />
 			</div>
 		</div>
 	)

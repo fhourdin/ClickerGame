@@ -17,13 +17,26 @@ const styles = (theme) => ({
 })
 
 const UpgradeList = (props) => {
-	const { classes } = props
+	const { classes, money, owned_upgrades, buyUpgrade } = props
 
 	return (
 		<div className={classes.container}>
-			{UPGRADES.map((upgrade, key) => (
-				<UpgradeBlock key={key} upgrade={upgrade} />
-			))}
+			{UPGRADES.map((upgrade, index) => {
+				const price = upgrade.base_cost.times(
+					upgrade.multiplier.pow(owned_upgrades[index])
+				)
+				return (
+					<UpgradeBlock
+						key={index}
+						upgrade={upgrade}
+						nb_owned={owned_upgrades[index]}
+						price={price}
+						upg_index={index}
+						affordable={money.gte(price)}
+						buyUpgrade={buyUpgrade}
+					/>
+				)
+			})}
 		</div>
 	)
 }

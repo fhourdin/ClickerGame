@@ -2,10 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import BigNumber from "bignumber.js"
+import clone from "lodash/clone"
 
 import Main from "components/Main"
 import UpgradeList from "components/UpgradeList"
 import TickCounter from "components/TickCounter"
+
+import UPGRADES from "enums/upgrades_enum"
 
 const styles = {
 	container: {
@@ -37,6 +40,23 @@ class App extends React.Component {
 		clearInterval(this.ticker)
 	}
 
+	buyUpgrade = (index) => {
+		const { money, owned_upgrades } = this.state
+
+		let new_owned_upgrades = clone(owned_upgrades)
+		const upg = UPGRADES[index]
+
+		new_owned_upgrades[index] += 1
+		const price = upg.base_cost.times(
+			upg.multiplier.pow(owned_upgrades[index])
+		)
+
+		this.setState({
+			money: money.minus(price),
+			owned_upgrades: new_owned_upgrades
+		})
+	}
+
 	handleClick = () => {
 		const { money, owned_upgrades } = this.state
 
@@ -45,13 +65,17 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { nb_of_ticks, money } = this.state
+		const { money, owned_upgrades } = this.state
 		const { classes } = this.props
 
 		return (
 			<div className={classes.container}>
 				<Main money={money} handleClick={this.handleClick} />
-				<UpgradeList />
+				<UpgradeList
+					money={money}
+					owned_upgrades={owned_upgrades}
+					buyUpgrade={this.buyUpgrade}
+				/>
 			</div>
 		)
 	}
