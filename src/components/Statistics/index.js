@@ -10,9 +10,21 @@ const styles = (theme) => ({
 })
 
 const Statistics = (props) => {
-	const { classes } = props
+	const { classes, total_inc_per_second, gain_per_click, total_money } = props
 
-	return <div className={classes.container}>Statistics</div>
+	return (
+		<div className={classes.container}>
+			<Typography>
+				Total money : {total_money.toExponential(2)}
+			</Typography>
+			<Typography>
+				Gain per second : {total_inc_per_second.toExponential(2)}
+			</Typography>
+			<Typography>
+				Gain per click : {gain_per_click.toExponential(2)}
+			</Typography>
+		</div>
+	)
 }
 
 Statistics.propTypes = {

@@ -11,10 +11,12 @@ const styles = {
 		backgroundColor: "#3498db",
 		borderRadius: 5,
 		boxShadow: "0 0 3px",
-		display: "flex"
+		display: "flex",
+		cursor: "pointer"
 	},
 	disabled: {
-		backgroundColor: "#95a5a6"
+		backgroundColor: "#95a5a6",
+		cursor: "not-allowed"
 	}
 }
 
@@ -31,7 +33,7 @@ const UpgradeBlock = (props) => {
 
 	return (
 		<div
-			onClick={() => buyUpgrade(upg_index)}
+			onClick={() => affordable && buyUpgrade(upg_index)}
 			className={`${classes.container} ${
 				!affordable ? classes.disabled : ""
 			}`}
