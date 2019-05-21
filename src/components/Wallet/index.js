@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import { connect } from "react-redux"
 
 const styles = (theme) => ({
 	container: {
@@ -34,4 +35,14 @@ Wallet.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Wallet)
+const mapStateToProps = (state) => ({
+	money: state.money
+})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+const StylesComponent = withStyles(styles)(Wallet)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(StylesComponent)

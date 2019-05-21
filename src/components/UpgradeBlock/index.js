@@ -3,6 +3,8 @@ import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import UpgradeLogo from "components/UpgradeLogo"
 import UpgradeContent from "components/UpgradeContent"
+import { buyUpgrade } from "actions"
+import { connect } from "react-redux"
 
 const styles = {
 	container: {
@@ -23,16 +25,18 @@ const UpgradeBlock = (props) => {
 	const {
 		classes,
 		upgrade,
-		affordable,
-		upg_index,
+		index,
+		nb_owned,
 		price,
-		buyUpgrade,
-		nb_owned
+		money,
+		buyUpgrade
 	} = props
+
+	const affordable = money.gte(price)
 
 	return (
 		<div
-			onClick={() => affordable && buyUpgrade(upg_index)}
+			onClick={() => affordable && buyUpgrade(index)}
 			className={`${classes.container} ${
 				!affordable ? classes.disabled : ""
 			}`}
@@ -52,4 +56,20 @@ UpgradeBlock.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(UpgradeBlock)
+const mapStateToProps = (state, ownProps) => ({
+	price: ownProps.upgrade.base_cost.times(
+		ownProps.upgrade.multiplier.pow(state.owned_upgrades[ownProps.index])
+	),
+	nb_owned: state.owned_upgrades[ownProps.index],
+	money: state.money
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	buyUpgrade: (index) => dispatch(buyUpgrade(index))
+})
+
+const StylesComponent = withStyles(styles)(UpgradeBlock)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(StylesComponent)

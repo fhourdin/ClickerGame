@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import UpgradeBlock from "components/UpgradeBlock"
 import UPGRADES from "enums/upgrades_enum"
+import { connect } from "react-redux"
 
 const styles = (theme) => ({
 	container: {
@@ -16,24 +17,13 @@ const styles = (theme) => ({
 })
 
 const UpgradeList = (props) => {
-	const { classes, money, owned_upgrades, buyUpgrade } = props
+	const { classes } = props
 
 	return (
 		<div className={classes.container}>
 			{UPGRADES.map((upgrade, index) => {
-				const price = upgrade.base_cost.times(
-					upgrade.multiplier.pow(owned_upgrades[index])
-				)
 				return (
-					<UpgradeBlock
-						key={index}
-						upgrade={upgrade}
-						nb_owned={owned_upgrades[index]}
-						price={price}
-						upg_index={index}
-						affordable={money.gte(price)}
-						buyUpgrade={buyUpgrade}
-					/>
+					<UpgradeBlock key={index} upgrade={upgrade} index={index} />
 				)
 			})}
 		</div>
@@ -44,4 +34,15 @@ UpgradeList.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(UpgradeList)
+const mapStateToProps = (state) => ({
+	money: state.money,
+	owned_upgrades: state.owned_upgrades
+})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+const StylesComponent = withStyles(styles)(UpgradeList)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(StylesComponent)

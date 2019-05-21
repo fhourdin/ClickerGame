@@ -2,6 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import { connect } from "react-redux"
+import BigNumber from "bignumber.js"
 
 const styles = (theme) => ({
 	container: {
@@ -31,4 +33,16 @@ Statistics.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Statistics)
+const mapStateToProps = (state) => ({
+	total_inc_per_second: state.total_inc_per_second,
+	total_money: state.total_money,
+	gain_per_click: BigNumber(1).plus(state.owned_upgrades[0])
+})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+const StylesComponent = withStyles(styles)(Statistics)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(StylesComponent)

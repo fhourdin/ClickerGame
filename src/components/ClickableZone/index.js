@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
+import { handleClick } from "actions"
+import { connect } from "react-redux"
 
 const styles = {
 	container: {
@@ -51,4 +53,14 @@ ClickableZone.propTypes = {
 	classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ClickableZone)
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = (dispatch) => ({
+	handleClick: () => dispatch(handleClick())
+})
+
+const StylesComponent = withStyles(styles)(ClickableZone)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(StylesComponent)

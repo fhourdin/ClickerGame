@@ -19,25 +19,14 @@ const styles = (theme) => ({
 })
 
 const Main = (props) => {
-	const {
-		classes,
-		money,
-		total_money,
-		total_inc_per_second,
-		gain_per_click,
-		handleClick
-	} = props
+	const { classes } = props
 
 	return (
 		<div className={classes.container}>
 			<AppTitle />
-			<Wallet money={money} />
-			<ClickableZone handleClick={handleClick} />
-			<Statistics
-				gain_per_click={gain_per_click}
-				total_money={total_money}
-				total_inc_per_second={total_inc_per_second}
-			/>
+			<Wallet />
+			<ClickableZone />
+			<Statistics />
 		</div>
 	)
 }
