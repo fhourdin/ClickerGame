@@ -24,7 +24,7 @@ const Wallet = (props) => {
 
 	return (
 		<div className={classes.container}>
-			<Typography variant="h6">{money.toExponential(2)}</Typography>
+			<Typography variant="h6">{money.toFixed(3)}</Typography>
 			<div className={classes.coin} />
 		</div>
 	)

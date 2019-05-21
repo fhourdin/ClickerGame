@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
 
 const styles = (theme) => ({
 	container: {
@@ -22,6 +21,7 @@ const UpgradeLogo = (props) => {
 		<div className={classes.container}>
 			<img
 				src={img_url}
+				alt="Click me"
 				className={`${classes.img} ${disabled ? classes.disabled : ""}`}
 			/>
 		</div>

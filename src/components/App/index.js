@@ -1,13 +1,11 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import BigNumber from "bignumber.js"
 import clone from "lodash/clone"
-import reduce from "lodash/reduce"
 
 import Main from "components/Main"
 import UpgradeList from "components/UpgradeList"
-import TickCounter from "components/TickCounter"
 
 import UPGRADES from "enums/upgrades_enum"
 
@@ -20,36 +18,45 @@ const styles = {
 	}
 }
 
-class App extends React.Component {
-	ticker = null
-	state = {
-		money: BigNumber(0),
-		total_money: BigNumber(0),
-		owned_upgrades: [0, 0, 0, 0, 0, 0, 0, 0],
-		total_inc_per_second: BigNumber(0)
+const App = ({ classes }) => {
+	const [money, setMoney] = useState(BigNumber(0))
+	const [total_money, setTotalMoney] = useState(BigNumber(0))
+	const [owned_upgrades, setOwnedUpgrades] = useState([
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	])
+	const [total_inc_per_second, setTotalIncPerSecond] = useState(BigNumber(0))
+
+	const onTick = () => {
+		setMoney(money.plus(total_inc_per_second))
+		setTotalMoney(total_money.plus(total_inc_per_second))
 	}
 
-	onTick() {
-		const { total_inc_per_second, money, total_money } = this.state
-		this.setState({
-			money: money.plus(total_inc_per_second),
-			total_money: total_money.plus(total_inc_per_second)
-		})
-	}
+	useEffect(() => {
+		console.log("coucou")
 
-	componentDidMount() {
-		this.ticker = setInterval(() => {
-			this.onTick()
-		}, 1000)
-	}
+		return () => {
+			console.log("beuh")
+		}
+	})
 
-	componentWillUnmount() {
-		clearInterval(this.ticker)
-	}
+	// componentDidMount() {
+	// 	this.ticker = setInterval(() => {
+	// 		this.onTick()
+	// 	}, 100)
+	// }
 
-	buyUpgrade = (index) => {
-		const { money, owned_upgrades, total_inc_per_second } = this.state
+	// componentWillUnmount() {
+	// 	clearInterval(this.ticker)
+	// }
 
+	const buyUpgrade = (index) => {
 		let new_owned_upgrades = clone(owned_upgrades)
 		const upg = UPGRADES[index]
 
@@ -58,51 +65,34 @@ class App extends React.Component {
 			upg.multiplier.pow(owned_upgrades[index])
 		)
 
-		this.setState({
-			money: money.minus(price),
-			owned_upgrades: new_owned_upgrades,
-			total_inc_per_second: total_inc_per_second.plus(
-				upg.base_income_rate
-			)
-		})
+		setMoney(money.minus(price))
+		setOwnedUpgrades(new_owned_upgrades)
+		setTotalIncPerSecond(total_inc_per_second.plus(upg.base_income_rate))
 	}
 
-	handleClick = () => {
-		const { money, total_money, owned_upgrades } = this.state
+	const handleClick = () => {
 		const gain = BigNumber(1).plus(owned_upgrades[0])
 
-		this.setState({
-			money: money.plus(gain),
-			total_money: total_money.plus(gain)
-		})
+		setMoney(money.plus(gain))
+		setTotalMoney(total_money.plus(gain))
 	}
 
-	render() {
-		const {
-			money,
-			owned_upgrades,
-			total_money,
-			total_inc_per_second
-		} = this.state
-		const { classes } = this.props
-
-		return (
-			<div className={classes.container}>
-				<Main
-					money={money}
-					handleClick={this.handleClick}
-					total_money={total_money}
-					total_inc_per_second={total_inc_per_second}
-					gain_per_click={BigNumber(1).plus(owned_upgrades[0])}
-				/>
-				<UpgradeList
-					money={money}
-					owned_upgrades={owned_upgrades}
-					buyUpgrade={this.buyUpgrade}
-				/>
-			</div>
-		)
-	}
+	return (
+		<div className={classes.container}>
+			<Main
+				money={money}
+				handleClick={handleClick}
+				total_money={total_money}
+				total_inc_per_second={total_inc_per_second}
+				gain_per_click={BigNumber(1).plus(owned_upgrades[0])}
+			/>
+			<UpgradeList
+				money={money}
+				owned_upgrades={owned_upgrades}
+				buyUpgrade={buyUpgrade}
+			/>
+		</div>
+	)
 }
 
 App.propTypes = {
